@@ -45,19 +45,15 @@ export class BoardManager {
     this.removeCompletedRows();
 
     if (this.currentPiece === null) {
-      const tileGenerator = randomPiece();
-      const tile = tileGenerator(
-        new Point(BOARD_WIDTH / 2, -1),
-        Color.random(),
-      );
-      this.currentPiece = tile;
+      this.currentPiece = this.generatePiece();
+      this.currentPiece.point.move(new Point(0, -1));
     }
 
     this.currentPiece.point.move(new Point(0, 1));
     if (this.checkCurrentPieceCollision()) {
       this.currentPiece.point.move(new Point(0, -1));
       this.activeTiles = this.activeTiles.withPiece(this.currentPiece);
-      this.currentPiece = null;
+      this.currentPiece = this.generatePiece();
     }
 
     this.rerender();
@@ -77,6 +73,12 @@ export class BoardManager {
       this.commandQueue = [];
       this.rerender();
     }
+  }
+
+  private generatePiece() {
+    const generator = randomPiece();
+    const piece = generator(new Point(BOARD_WIDTH / 2, 0), Color.random());
+    return piece;
   }
 
   private rerender() {
