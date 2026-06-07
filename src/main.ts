@@ -12,6 +12,7 @@ function main() {
         right: getButton("right-btn"),
         turnLeft: getButton("turn-left-btn"),
         turnRight: getButton("turn-right-btn"),
+        tick: getButton("tick-btn"),
       },
     });
   });

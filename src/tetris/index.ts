@@ -9,12 +9,11 @@ interface GameElements {
     turnRight: HTMLButtonElement;
     left: HTMLButtonElement;
     right: HTMLButtonElement;
+    tick: HTMLButtonElement;
   };
 }
 
 export function startGame(elements: GameElements) {
   const game = new Game(new BoardRenderer(elements.canvas));
-  game.tick();
-  game.tick();
-  game.tick();
+  elements.buttons.tick.onclick = () => game.tick();
 }
