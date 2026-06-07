@@ -14,9 +14,12 @@ interface GameElements {
 }
 
 export function startGame(elements: GameElements) {
-  const game = new BoardManager(new BoardRenderer(elements.canvas));
-  elements.buttons.tick.onclick = () => game.tick();
+  const renderer = new BoardRenderer(elements.canvas)
+  const board = new BoardManager(renderer);
+  renderer.attachBoard(board);
 
-  elements.buttons.left.onclick = () => game.execute(new MoveLeftCommand());
-  elements.buttons.right.onclick = () => game.execute(new MoveRightCommand());
+  elements.buttons.tick.onclick = () => board.tick();
+
+  elements.buttons.left.onclick = () => board.execute(new MoveLeftCommand());
+  elements.buttons.right.onclick = () => board.execute(new MoveRightCommand());
 }

@@ -4,6 +4,7 @@ import { Color } from "./color";
 import { Point } from "./point";
 import { randomPiece, Piece } from "./piece";
 import { Command } from "./commands";
+import { BoardEvents } from "./events";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
@@ -13,10 +14,31 @@ export class BoardManager {
   private activeTiles: Tiles;
   private commandQueue: Command[];
 
+  private handlers: {
+    [T in keyof BoardEvents]: BoardEvents[T][];
+  };
+
   constructor(private renderer: BoardRenderer) {
     this.activeTiles = new Tiles(BOARD_WIDTH, BOARD_HEIGHT);
     this.currentPiece = null;
     this.commandQueue = [];
+    this.handlers = Object.create(null);
+  }
+
+  private emit<T extends keyof BoardEvents>(
+    event: T,
+    ...args: Parameters<BoardEvents[T]>
+  ) {
+    if (!this.handlers[event]) return;
+    for (const handler of this.handlers[event]) {
+      // typescript gives a weird error if we dont cast it
+      (handler as (...args: Parameters<BoardEvents[T]>) => void)(...args);
+    }
+  }
+
+  public on<T extends keyof BoardEvents>(event: T, handler: BoardEvents[T]) {
+    if (!this.handlers[event]) this.handlers[event] = [];
+    this.handlers[event].push(handler);
   }
 
   public tick() {
@@ -60,8 +82,8 @@ export class BoardManager {
   private rerender() {
     this.renderer.render(
       this.currentPiece
-        ? this.activeTiles.withPiece(this.currentPiece).getTiles()
-        : this.activeTiles.getTiles(),
+        ? this.activeTiles.withPiece(this.currentPiece)
+        : this.activeTiles,
     );
   }
 
@@ -70,6 +92,7 @@ export class BoardManager {
     for (let i = start; i >= 0; i--) {
       if (this.activeTiles.isRowFull(i)) {
         this.activeTiles.removeRow(i);
+        this.emit("completedRow", i);
         i = start;
       }
     }

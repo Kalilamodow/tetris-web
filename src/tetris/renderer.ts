@@ -1,4 +1,6 @@
+import { BoardManager } from "./game/board";
 import { Color } from "./game/board/color";
+import { Tiles } from "./game/board/tiles";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
@@ -12,7 +14,13 @@ export class BoardRenderer {
   private tileWidth: number;
   private tileHeight: number;
 
+  private currentTiles: Tiles | null;
+  private highlightedRow: number | null; // for when rows are completed
+
   constructor(private canvas: HTMLCanvasElement) {
+    this.currentTiles = null;
+    this.highlightedRow = null;
+
     const context = canvas.getContext("2d");
     if (!context) {
       alert("Failed to create canvas context");
@@ -27,17 +35,48 @@ export class BoardRenderer {
     this.tileHeight = this.height / BOARD_HEIGHT;
   }
 
-  public render(tiles: (Color | null)[][]) {
+  public attachBoard(board: BoardManager) {
+    board.on("completedRow", (row: number) => {
+      this.highlightedRow = row;
+      this.render();
+      setTimeout(() => {
+        this.highlightedRow = null;
+        this.render();
+      }, 500);
+    });
+  }
+
+  public render(): void;
+  public render(tiles: Tiles): void;
+
+  public render(tiles?: Tiles) {
+    if (tiles) this.currentTiles = tiles;
+
     this.ctx.fillStyle = "#000";
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     this.drawGrid();
 
-    for (const [rowIndex, row] of tiles.entries()) {
+    if (!this.currentTiles) {
+      console.warn("renderer: attempted to render with no tiles");
+      return;
+    }
+
+    for (const [rowIndex, row] of this.currentTiles.getTiles().entries()) {
       for (const [tileIndex, tile] of row.entries()) {
         if (tile === null) continue;
         this.drawTile(tileIndex, rowIndex, tile);
       }
+    }
+
+    if (this.highlightedRow) {
+      this.ctx.fillStyle = "#fff8";
+      this.ctx.fillRect(
+        0,
+        this.highlightedRow * this.tileHeight,
+        this.width,
+        this.tileHeight,
+      );
     }
   }
 
