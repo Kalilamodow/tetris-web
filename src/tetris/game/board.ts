@@ -1,8 +1,8 @@
 import { Color } from "./color";
 import { Piece } from "./piece";
 
-const fillArray = <T>(size: number, thing: T): T[] =>
-  new Array(size).fill(thing);
+const fillArray = <T>(size: number, thing: () => T): T[] =>
+  new Array(size).fill(thing).map((f) => f());
 
 export class Board {
   private tiles: (Color | null)[][];
@@ -11,7 +11,9 @@ export class Board {
     private width: number,
     private height: number,
   ) {
-    this.tiles = fillArray(this.height, fillArray(this.width, null));
+    this.tiles = fillArray(this.height, () =>
+      fillArray(this.width, () => null),
+    );
   }
 
   public checkCollision(row: number, column: number) {
