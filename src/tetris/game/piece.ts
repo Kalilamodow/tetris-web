@@ -16,6 +16,14 @@ export class Piece {
   public at(point: Point) {
     return new Piece(point, this.pieces, this.color);
   }
+
+  public copy() {
+    return new Piece(
+      this.point.copy(),
+      structuredClone(this.pieces),
+      this.color,
+    );
+  }
 }
 
 export const PIECE_TEMPLATES = {

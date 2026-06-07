@@ -3,6 +3,7 @@ import { BoardRenderer } from "./boardrenderer";
 import { Color } from "./color";
 import { Point } from "./point";
 import { randomPiece, Piece } from "./piece";
+import { Command } from "./commands";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
@@ -10,10 +11,12 @@ const BOARD_HEIGHT = 20;
 export class Game {
   private currentPiece: Piece | null;
   private activeTiles: Board;
+  private commandQueue: Command[];
 
   constructor(private renderer: BoardRenderer) {
     this.activeTiles = new Board(BOARD_WIDTH, BOARD_HEIGHT);
     this.currentPiece = null;
+    this.commandQueue = [];
   }
 
   public tick() {
@@ -33,6 +36,26 @@ export class Game {
       this.currentPiece = null;
     }
 
+    this.rerender();
+  }
+
+  public execute(command: Command) {
+    this.commandQueue.push(command);
+
+    if (this.currentPiece != null) {
+      const original = this.currentPiece.copy();
+      for (const cmd of this.commandQueue) {
+        cmd.execute(this.currentPiece);
+      }
+      if (this.checkCurrentPieceCollision()) {
+        this.currentPiece = original;
+      }
+      this.commandQueue = [];
+      this.rerender();
+    }
+  }
+
+  private rerender() {
     this.renderer.render(
       this.currentPiece
         ? this.activeTiles.withPiece(this.currentPiece).getTiles()

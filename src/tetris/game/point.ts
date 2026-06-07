@@ -12,4 +12,8 @@ export class Point {
     this.x += by.x;
     this.y += by.y;
   }
+
+  public copy() {
+    return new Point(this.x, this.y);
+  }
 }

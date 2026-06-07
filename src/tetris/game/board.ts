@@ -16,6 +16,7 @@ export class Board {
 
   public checkCollision(row: number, column: number) {
     if (row >= this.height) return true;
+    if (column < 0 || column >= this.width) return true;
     return this.tiles[row][column] !== null;
   }
 
