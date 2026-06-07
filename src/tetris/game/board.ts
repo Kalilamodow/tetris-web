@@ -14,6 +14,11 @@ export class Board {
     this.tiles = fillArray(this.height, fillArray(this.width, null));
   }
 
+  public checkCollision(row: number, column: number) {
+    if (row >= this.height) return true;
+    return this.tiles[row][column] !== null;
+  }
+
   public setRow(rowIndex: number, row: (Color | null)[]) {
     this.tiles[rowIndex] = row;
   }

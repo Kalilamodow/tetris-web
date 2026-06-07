@@ -27,9 +27,34 @@ export class Game {
     }
 
     this.currentPiece.point.move(new Point(0, 1));
+    if (this.checkCurrentPieceCollision()) {
+      this.currentPiece.point.move(new Point(0, -1));
+      this.activeTiles = this.activeTiles.withPiece(this.currentPiece);
+      this.currentPiece = null;
+    }
 
     this.renderer.render(
-      this.activeTiles.withPiece(this.currentPiece).getTiles(),
+      this.currentPiece
+        ? this.activeTiles.withPiece(this.currentPiece).getTiles()
+        : this.activeTiles.getTiles(),
     );
+  }
+
+  private checkCurrentPieceCollision() {
+    if (this.currentPiece === null) return false;
+
+    for (const [rowIndex, row] of this.currentPiece.pieces.entries()) {
+      for (const [tileIndex, tileExists] of row.entries()) {
+        if (!tileExists) continue;
+
+        const isColliding = this.activeTiles.checkCollision(
+          rowIndex + this.currentPiece.point.y,
+          tileIndex + this.currentPiece.point.x,
+        );
+        if (isColliding) return true;
+      }
+    }
+
+    return false;
   }
 }
