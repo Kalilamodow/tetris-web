@@ -22,6 +22,15 @@ export class Board {
     return this.tiles[row][column] !== null;
   }
 
+  public isRowFull(row: number) {
+    return this.tiles[row].every((t) => t !== null);
+  }
+
+  public removeRow(row: number) {
+    this.tiles.splice(row, 1);
+    this.tiles.unshift(fillArray(this.width, () => null));
+  }
+
   public setRow(rowIndex: number, row: (Color | null)[]) {
     this.tiles[rowIndex] = row;
   }

@@ -20,6 +20,8 @@ export class Game {
   }
 
   public tick() {
+    this.removeCompletedRows();
+
     if (this.currentPiece === null) {
       const tileGenerator = randomPiece();
       const tile = tileGenerator(
@@ -61,6 +63,16 @@ export class Game {
         ? this.activeTiles.withPiece(this.currentPiece).getTiles()
         : this.activeTiles.getTiles(),
     );
+  }
+
+  private removeCompletedRows() {
+    const start = BOARD_HEIGHT - 1;
+    for (let i = start; i >= 0; i--) {
+      if (this.activeTiles.isRowFull(i)) {
+        this.activeTiles.removeRow(i);
+        i = start;
+      }
+    }
   }
 
   private checkCurrentPieceCollision() {
