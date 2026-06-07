@@ -27,14 +27,30 @@ export class Piece {
 }
 
 export const PIECE_TEMPLATES = {
-  SQUARE: Piece.template([
+  SMASHBOY: Piece.template([
     [true, true],
     [true, true],
   ]),
-  L: Piece.template([
-    [true, false],
-    [true, false],
-    [true, true],
+  ORANGE_RICKY: Piece.template([
+    [false, false, true],
+    [true, true, true],
+  ]),
+  BLUE_RICKY: Piece.template([
+    [true, false, false],
+    [true, true, true],
+  ]),
+  HERO: Piece.template([[true, true, true, true]]),
+  RHODE_ISLAND_Z: Piece.template([
+    [false, true, true],
+    [true, true, false],
+  ]),
+  CLEVELAND_Z: Piece.template([
+    [true, true, false],
+    [false, true, true],
+  ]),
+  TEEWEE: Piece.template([
+    [false, true, false],
+    [true, true, true],
   ]),
 } as const;
 
