@@ -1,4 +1,4 @@
-import { Color } from "./game/color";
+import { Color } from "./game/board/color";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;

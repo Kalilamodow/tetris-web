@@ -4,7 +4,7 @@ import { Piece } from "./piece";
 const fillArray = <T>(size: number, thing: () => T): T[] =>
   new Array(size).fill(thing).map((f) => f());
 
-export class Board {
+export class Tiles {
   private tiles: (Color | null)[][];
 
   constructor(
@@ -61,7 +61,7 @@ export class Board {
   }
 
   public copy() {
-    const newBoard = new Board(this.width, this.height);
+    const newBoard = new Tiles(this.width, this.height);
     for (let i = 0; i < this.height; i++)
       newBoard.setRow(i, [...this.tiles[i]]);
     return newBoard;

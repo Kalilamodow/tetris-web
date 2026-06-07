@@ -1,5 +1,5 @@
-import { BoardManager } from "./game";
-import { MoveLeftCommand, MoveRightCommand } from "./game/commands";
+import { BoardManager } from "./game/board";
+import { MoveLeftCommand, MoveRightCommand } from "./game/board/commands";
 import { BoardRenderer } from "./renderer";
 
 interface GameElements {

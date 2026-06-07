@@ -1,5 +1,5 @@
-import { Board } from "./board";
-import { BoardRenderer } from "./boardrenderer";
+import { Tiles } from "./tiles";
+import { BoardRenderer } from "../../renderer";
 import { Color } from "./color";
 import { Point } from "./point";
 import { randomPiece, Piece } from "./piece";
@@ -10,11 +10,11 @@ const BOARD_HEIGHT = 20;
 
 export class BoardManager {
   private currentPiece: Piece | null;
-  private activeTiles: Board;
+  private activeTiles: Tiles;
   private commandQueue: Command[];
 
   constructor(private renderer: BoardRenderer) {
-    this.activeTiles = new Board(BOARD_WIDTH, BOARD_HEIGHT);
+    this.activeTiles = new Tiles(BOARD_WIDTH, BOARD_HEIGHT);
     this.currentPiece = null;
     this.commandQueue = [];
   }
