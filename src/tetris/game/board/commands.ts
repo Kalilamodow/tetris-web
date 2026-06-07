@@ -16,3 +16,9 @@ export class MoveRightCommand implements Command {
     piece.point.move(new Point(1, 0));
   }
 }
+
+export class MoveDownCommand implements Command {
+  execute(piece: Piece) {
+    piece.point.move(new Point(0, 1));
+  }
+}
