@@ -8,7 +8,7 @@ import { Command } from "./commands";
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
 
-export class Game {
+export class BoardManager {
   private currentPiece: Piece | null;
   private activeTiles: Board;
   private commandQueue: Command[];
