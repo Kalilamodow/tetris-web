@@ -2,6 +2,8 @@ import { Color } from "./color";
 import { Point } from "./point";
 import { randomChoice } from "./utils";
 
+import * as matrixRotation from "./matrix_rotation";
+
 export class Piece {
   public constructor(
     public point: Point,
@@ -15,6 +17,14 @@ export class Piece {
 
   public at(point: Point) {
     return new Piece(point, this.pieces, this.color);
+  }
+
+  public rotateClockwise() {
+    this.pieces = matrixRotation.rotateClockwise(this.pieces);
+  }
+
+  public rotateCounterClockwise() {
+    this.pieces = matrixRotation.rotateCounterClockwise(this.pieces);
   }
 
   public copy() {

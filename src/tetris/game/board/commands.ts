@@ -22,3 +22,15 @@ export class MoveDownCommand implements Command {
     piece.point.move(new Point(0, 1));
   }
 }
+
+export class RotateClockwiseCommand implements Command {
+  execute(piece: Piece) {
+    piece.rotateClockwise();
+  }
+}
+
+export class RotateCounterClockwiseCommand implements Command {
+  execute(piece: Piece) {
+    piece.rotateCounterClockwise();
+  }
+}

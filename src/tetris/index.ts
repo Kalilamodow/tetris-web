@@ -3,6 +3,8 @@ import {
   MoveDownCommand,
   MoveLeftCommand,
   MoveRightCommand,
+  RotateClockwiseCommand,
+  RotateCounterClockwiseCommand,
 } from "./game/board/commands";
 import { BoardRenderer } from "./renderer";
 
@@ -25,6 +27,11 @@ export function startGame(elements: GameElements) {
   elements.buttons.left.onclick = () => board.execute(new MoveLeftCommand());
   elements.buttons.right.onclick = () => board.execute(new MoveRightCommand());
   elements.buttons.down.onclick = () => board.execute(new MoveDownCommand());
+
+  elements.buttons.turnRight.onclick = () =>
+    board.execute(new RotateClockwiseCommand());
+  elements.buttons.turnLeft.onclick = () =>
+    board.execute(new RotateCounterClockwiseCommand());
 
   board.tick();
   setInterval(() => board.tick(), 1000);
