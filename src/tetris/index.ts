@@ -1,4 +1,4 @@
-import { BoardManager } from "./game/board";
+import { Board } from "./game/board";
 import {
   MoveDownCommand,
   MoveLeftCommand,
@@ -21,8 +21,8 @@ interface GameElements {
 }
 
 export function startGame(elements: GameElements) {
+  const board = new Board();
   const renderer = new BoardRenderer(elements.canvas);
-  const board = new BoardManager(renderer);
   renderer.attachBoard(board);
 
   elements.buttons.left.onclick = () => board.execute(new MoveLeftCommand());

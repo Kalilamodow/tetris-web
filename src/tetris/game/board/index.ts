@@ -1,15 +1,13 @@
-import { Tiles } from "./tiles";
-import { BoardRenderer } from "../../renderer";
-import { Color } from "./color";
-import { Point } from "./point";
-import { randomPiece, Piece } from "./piece";
 import { Command } from "./commands";
 import { BoardEvents } from "./events";
+import { Piece, randomPiece } from "./piece";
+import { Point } from "./point";
+import { Tiles } from "./tiles";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
 
-export class BoardManager {
+export class Board {
   private currentPiece: Piece | null;
   private activeTiles: Tiles;
   private commandQueue: Command[];
@@ -18,7 +16,7 @@ export class BoardManager {
     [T in keyof BoardEvents]: BoardEvents[T][];
   };
 
-  constructor(private renderer: BoardRenderer) {
+  constructor() {
     this.activeTiles = new Tiles(BOARD_WIDTH, BOARD_HEIGHT);
     this.currentPiece = null;
     this.commandQueue = [];
@@ -87,7 +85,8 @@ export class BoardManager {
   }
 
   private rerender() {
-    this.renderer.render(
+    this.emit(
+      "boardUpdated",
       this.currentPiece
         ? this.activeTiles.withPiece(this.currentPiece)
         : this.activeTiles,

@@ -1,4 +1,4 @@
-import { BoardManager } from "./game/board";
+import { Board } from "./game/board";
 import { Color } from "./game/board/color";
 import { Tiles } from "./game/board/tiles";
 
@@ -17,7 +17,7 @@ export class BoardRenderer {
   private currentTiles: Tiles | null;
   private highlightedRow: number | null; // for when rows are completed
 
-  constructor(private canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement) {
     this.currentTiles = null;
     this.highlightedRow = null;
 
@@ -35,7 +35,9 @@ export class BoardRenderer {
     this.tileHeight = this.height / BOARD_HEIGHT;
   }
 
-  public attachBoard(board: BoardManager) {
+  public attachBoard(board: Board) {
+    board.on("boardUpdated", (tiles) => this.render(tiles));
+
     board.on("completedRow", (row: number) => {
       this.highlightedRow = row;
       this.render();
