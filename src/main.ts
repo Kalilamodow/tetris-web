@@ -13,6 +13,7 @@ function main() {
         turnLeft: getButton("turn-left-btn"),
         turnRight: getButton("turn-right-btn"),
         down: getButton("down-btn"),
+        restart: getButton("restart-btn"),
       },
     });
   });

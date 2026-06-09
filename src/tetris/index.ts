@@ -16,6 +16,7 @@ interface GameElements {
     left: HTMLButtonElement;
     right: HTMLButtonElement;
     down: HTMLButtonElement;
+    restart: HTMLButtonElement;
   };
 }
 
@@ -35,4 +36,9 @@ export function startGame(elements: GameElements) {
 
   board.tick();
   setInterval(() => board.tick(), 1000);
+
+  elements.buttons.restart.onclick = () => {
+    board.clear();
+    board.tick();
+  };
 }

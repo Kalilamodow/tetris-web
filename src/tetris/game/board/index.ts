@@ -25,6 +25,11 @@ export class BoardManager {
     this.handlers = Object.create(null);
   }
 
+  public clear() {
+    this.activeTiles = new Tiles(BOARD_WIDTH, BOARD_HEIGHT);
+    this.currentPiece = null;
+  }
+
   private emit<T extends keyof BoardEvents>(
     event: T,
     ...args: Parameters<BoardEvents[T]>
