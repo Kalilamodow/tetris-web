@@ -1,4 +1,4 @@
-import { randomChoice } from "./utils";
+import { randomChoice } from "../board/utils";
 
 export class Color {
   constructor(public rgb: string) {}

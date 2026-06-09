@@ -6,7 +6,7 @@ import {
   RotateClockwiseCommand,
   RotateCounterClockwiseCommand,
 } from "./game/board/commands";
-import { BoardRenderer } from "./renderer";
+import { BoardRenderer } from "./game/renderer";
 
 interface GameElements {
   canvas: HTMLCanvasElement;

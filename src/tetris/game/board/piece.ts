@@ -1,4 +1,4 @@
-import { Color } from "./color";
+import { Color } from "../common/color";
 import { Point } from "./point";
 import { randomChoice } from "./utils";
 

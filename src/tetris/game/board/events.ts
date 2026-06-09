@@ -1,4 +1,4 @@
-import { Tiles } from "./tiles";
+import { Tiles } from "../common/tiles";
 
 export type BoardEvents = {
   completedRow: (row: number) => void;

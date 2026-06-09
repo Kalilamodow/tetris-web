@@ -1,6 +1,6 @@
-import { Board } from "./game/board";
-import { Color } from "./game/board/color";
-import { Tiles } from "./game/board/tiles";
+import { Board } from "../board";
+import { Color } from "../common/color";
+import { Tiles } from "../common/tiles";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;

@@ -2,7 +2,7 @@ import { Command } from "./commands";
 import { BoardEvents } from "./events";
 import { Piece, randomPiece } from "./piece";
 import { Point } from "./point";
-import { Tiles } from "./tiles";
+import { Tiles } from "../common/tiles";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;

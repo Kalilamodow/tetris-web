@@ -1,5 +1,5 @@
 import { Color } from "./color";
-import { Piece } from "./piece";
+import { Piece } from "../board/piece";
 
 const fillArray = <T>(size: number, thing: () => T): T[] =>
   new Array(size).fill(thing).map((f) => f());
