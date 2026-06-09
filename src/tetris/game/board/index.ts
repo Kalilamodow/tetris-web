@@ -77,7 +77,7 @@ export class BoardManager {
 
   private generatePiece() {
     const generator = randomPiece();
-    const piece = generator(new Point(BOARD_WIDTH / 2, 0), Color.random());
+    const piece = generator(new Point(BOARD_WIDTH / 2, 0));
     return piece;
   }
 

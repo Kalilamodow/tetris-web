@@ -9,8 +9,8 @@ export class Piece {
     public color: Color,
   ) {}
 
-  public static template(pieces: boolean[][]) {
-    return (point: Point, color: Color) => new Piece(point, pieces, color);
+  public static template(pieces: boolean[][], color: Color) {
+    return (point: Point) => new Piece(point, pieces, color);
   }
 
   public at(point: Point) {
@@ -27,31 +27,56 @@ export class Piece {
 }
 
 export const PIECE_TEMPLATES = {
-  SMASHBOY: Piece.template([
-    [true, true],
-    [true, true],
-  ]),
-  ORANGE_RICKY: Piece.template([
-    [false, false, true],
-    [true, true, true],
-  ]),
-  BLUE_RICKY: Piece.template([
-    [true, false, false],
-    [true, true, true],
-  ]),
-  HERO: Piece.template([[true, true, true, true]]),
-  RHODE_ISLAND_Z: Piece.template([
-    [false, true, true],
-    [true, true, false],
-  ]),
-  CLEVELAND_Z: Piece.template([
-    [true, true, false],
-    [false, true, true],
-  ]),
-  TEEWEE: Piece.template([
-    [false, true, false],
-    [true, true, true],
-  ]),
+  // 2x2
+  SMASHBOY: Piece.template(
+    [
+      [true, true],
+      [true, true],
+    ],
+    Color.YELLOW,
+  ),
+  // L
+  ORANGE_RICKY: Piece.template(
+    [
+      [false, false, true],
+      [true, true, true],
+    ],
+    Color.ORANGE,
+  ),
+  // reverse L
+  BLUE_RICKY: Piece.template(
+    [
+      [true, false, false],
+      [true, true, true],
+    ],
+    Color.BLUE,
+  ),
+  // Line
+  HERO: Piece.template([[true, true, true, true]], Color.CYAN),
+  // S
+  RHODE_ISLAND_Z: Piece.template(
+    [
+      [false, true, true],
+      [true, true, false],
+    ],
+    Color.GREEN,
+  ),
+  // Z
+  CLEVELAND_Z: Piece.template(
+    [
+      [true, true, false],
+      [false, true, true],
+    ],
+    Color.RED,
+  ),
+  // T
+  TEEWEE: Piece.template(
+    [
+      [false, true, false],
+      [true, true, true],
+    ],
+    Color.PURPLE,
+  ),
 } as const;
 
 export function randomPiece() {
