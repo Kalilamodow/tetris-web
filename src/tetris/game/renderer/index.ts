@@ -5,6 +5,8 @@ import { Tiles } from "../common/tiles";
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
 
+const TILE_BORDER_THICKNESS = 4;
+
 export class BoardRenderer {
   private ctx: CanvasRenderingContext2D;
 
@@ -90,6 +92,111 @@ export class BoardRenderer {
       this.tileWidth,
       this.tileHeight,
     );
+
+    // inset borders (optimization is boring)
+
+    // top
+    this.ctx.fillStyle = "#fff";
+    this.trapezoid(
+      [x * this.tileWidth, y * this.tileHeight], // top-left
+      [(x + 1) * this.tileWidth, y * this.tileHeight], // top-right
+      [
+        // bottom-right
+        (x + 1) * this.tileWidth - TILE_BORDER_THICKNESS,
+        y * this.tileHeight + TILE_BORDER_THICKNESS,
+      ],
+      [
+        // bottom-left
+        x * this.tileWidth + TILE_BORDER_THICKNESS,
+        y * this.tileHeight + TILE_BORDER_THICKNESS,
+      ],
+    );
+
+    // left
+    this.ctx.fillStyle = "#0001";
+    this.trapezoid(
+      [x * this.tileWidth, y * this.tileHeight], // top-left
+      [
+        // top-right
+        x * this.tileWidth + TILE_BORDER_THICKNESS,
+        y * this.tileHeight + TILE_BORDER_THICKNESS,
+      ],
+      [
+        // bottom-right
+        x * this.tileWidth + TILE_BORDER_THICKNESS,
+        (y + 1) * this.tileHeight - TILE_BORDER_THICKNESS,
+      ],
+      [
+        // bottom-left
+        x * this.tileWidth,
+        (y + 1) * this.tileHeight,
+      ],
+    );
+
+    // right
+    this.ctx.fillStyle = "#0001";
+    this.trapezoid(
+      [
+        // top-left
+        (x + 1) * this.tileWidth - TILE_BORDER_THICKNESS,
+        y * this.tileHeight + TILE_BORDER_THICKNESS,
+      ],
+      [
+        // top-right
+        (x + 1) * this.tileWidth,
+        y * this.tileHeight,
+      ],
+      [
+        // bottom-right
+        (x + 1) * this.tileWidth,
+        (y + 1) * this.tileHeight,
+      ],
+      [
+        // bottom-left
+        (x + 1) * this.tileWidth - TILE_BORDER_THICKNESS,
+        (y + 1) * this.tileHeight - TILE_BORDER_THICKNESS,
+      ],
+    );
+
+    // bottom
+    this.ctx.fillStyle = "#0004";
+    this.trapezoid(
+      [
+        // top-left
+        x * this.tileWidth + TILE_BORDER_THICKNESS,
+        (y + 1) * this.tileHeight - TILE_BORDER_THICKNESS,
+      ],
+      [
+        // top-right
+        (x + 1) * this.tileWidth - TILE_BORDER_THICKNESS,
+        (y + 1) * this.tileHeight - TILE_BORDER_THICKNESS,
+      ],
+      [
+        // bottom-right
+        (x + 1) * this.tileWidth,
+        (y + 1) * this.tileHeight,
+      ],
+      [
+        // bottom-left
+        x * this.tileWidth,
+        (y + 1) * this.tileHeight,
+      ],
+    );
+  }
+
+  private trapezoid(
+    a: [number, number],
+    b: [number, number],
+    c: [number, number],
+    d: [number, number],
+  ) {
+    this.ctx.beginPath();
+    this.ctx.moveTo(a[0], a[1]);
+    this.ctx.lineTo(b[0], b[1]);
+    this.ctx.lineTo(c[0], c[1]);
+    this.ctx.lineTo(d[0], d[1]);
+    this.ctx.closePath();
+    this.ctx.fill();
   }
 
   private drawGrid() {
