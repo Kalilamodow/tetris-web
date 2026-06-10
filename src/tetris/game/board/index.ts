@@ -95,13 +95,18 @@ export class Board {
 
   private removeCompletedRows() {
     const start = BOARD_HEIGHT - 1;
+    const completed = [] as number[];
+
     for (let i = start; i >= 0; i--) {
       if (this.activeTiles.isRowFull(i)) {
         this.activeTiles.removeRow(i);
-        this.emit("completedRow", i);
-        i = start;
+        completed.push(i);
+
+        i = start + 1; // bc i-- runs
       }
     }
+
+    if (completed.length) this.emit("completedRows", completed);
   }
 
   private checkCurrentPieceCollision() {

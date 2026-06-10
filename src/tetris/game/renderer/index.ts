@@ -17,11 +17,11 @@ export class BoardRenderer {
   private tileHeight: number;
 
   private currentTiles: Tiles | null;
-  private highlightedRow: number | null; // for when rows are completed
+  private highlightedRows: number[]; // for when rows are completed
 
   constructor(canvas: HTMLCanvasElement) {
     this.currentTiles = null;
-    this.highlightedRow = null;
+    this.highlightedRows = [];
 
     const context = canvas.getContext("2d");
     if (!context) {
@@ -40,11 +40,11 @@ export class BoardRenderer {
   public attachBoard(board: Board) {
     board.on("boardUpdated", (tiles) => this.render(tiles));
 
-    board.on("completedRow", (row: number) => {
-      this.highlightedRow = row;
+    board.on("completedRows", (rows) => {
+      this.highlightedRows = rows;
       this.render();
       setTimeout(() => {
-        this.highlightedRow = null;
+        this.highlightedRows = [];
         this.render();
       }, 500);
     });
@@ -73,14 +73,9 @@ export class BoardRenderer {
       }
     }
 
-    if (this.highlightedRow) {
+    for (const row of this.highlightedRows) {
       this.ctx.fillStyle = "#fff8";
-      this.ctx.fillRect(
-        0,
-        this.highlightedRow * this.tileHeight,
-        this.width,
-        this.tileHeight,
-      );
+      this.ctx.fillRect(0, row * this.tileHeight, this.width, this.tileHeight);
     }
   }
 
