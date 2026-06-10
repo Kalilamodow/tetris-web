@@ -2,6 +2,7 @@ import { Color } from "../common/color";
 import { Point } from "./point";
 import { randomChoice } from "./utils";
 
+import { Tiles } from "../common/tiles";
 import * as matrixRotation from "./matrix_rotation";
 
 export class Piece {
@@ -17,6 +18,18 @@ export class Piece {
 
   public at(point: Point) {
     return new Piece(point, this.pieces, this.color);
+  }
+
+  public asTiles() {
+    const tiles = new Tiles(this.pieces[0].length, this.pieces.length);
+    for (const [rowIndex, row] of this.pieces.entries()) {
+      tiles.setRow(
+        rowIndex,
+        row.map((exists) => (exists ? this.color : null)),
+      );
+    }
+
+    return tiles;
   }
 
   public rotateClockwise() {

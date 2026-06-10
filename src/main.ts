@@ -7,6 +7,7 @@ function main() {
     getElementById("game").hidden = false;
     startGame({
       canvas: getElementById<HTMLCanvasElement>("canvas"),
+      nextPieceCanvas: getElementById<HTMLCanvasElement>("next-piece-canvas"),
       buttons: {
         left: getButton("left-btn"),
         right: getButton("right-btn"),

@@ -6,10 +6,11 @@ import {
   RotateClockwiseCommand,
   RotateCounterClockwiseCommand,
 } from "./game/board/commands";
-import { BoardRenderer } from "./game/renderer";
+import { BoardRenderer, PieceRenderer } from "./game/rendering";
 
 interface GameElements {
   canvas: HTMLCanvasElement;
+  nextPieceCanvas: HTMLCanvasElement;
   buttons: {
     turnLeft: HTMLButtonElement;
     turnRight: HTMLButtonElement;
@@ -24,6 +25,9 @@ export function startGame(elements: GameElements) {
   const board = new Board();
   const renderer = new BoardRenderer(elements.canvas);
   renderer.attachBoard(board);
+
+  const nextPieceRenderer = new PieceRenderer(elements.nextPieceCanvas);
+  nextPieceRenderer.use("nextPieceUpdated", board);
 
   elements.buttons.left.onclick = () => board.execute(new MoveLeftCommand());
   elements.buttons.right.onclick = () => board.execute(new MoveRightCommand());

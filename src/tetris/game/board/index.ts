@@ -1,14 +1,15 @@
+import { Tiles } from "../common/tiles";
 import { Command } from "./commands";
 import { BoardEvents } from "./events";
 import { Piece, randomPiece } from "./piece";
 import { Point } from "./point";
-import { Tiles } from "../common/tiles";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
 
 export class Board {
   private currentPiece: Piece | null;
+  private nextPiece: ReturnType<typeof randomPiece>;
   private activeTiles: Tiles;
   private commandQueue: Command[];
 
@@ -19,6 +20,7 @@ export class Board {
   constructor() {
     this.activeTiles = new Tiles(BOARD_WIDTH, BOARD_HEIGHT);
     this.currentPiece = null;
+    this.nextPiece = randomPiece();
     this.commandQueue = [];
     this.handlers = Object.create(null);
   }
@@ -48,7 +50,7 @@ export class Board {
     this.removeCompletedRows();
 
     if (this.currentPiece === null) {
-      this.currentPiece = this.generatePiece();
+      this.currentPiece = this.newPiece();
       this.currentPiece.point.move(new Point(0, -1));
     }
 
@@ -56,7 +58,7 @@ export class Board {
     if (this.checkCurrentPieceCollision()) {
       this.currentPiece.point.move(new Point(0, -1));
       this.activeTiles = this.activeTiles.withPiece(this.currentPiece);
-      this.currentPiece = this.generatePiece();
+      this.currentPiece = this.newPiece();
     }
 
     this.rerender();
@@ -78,10 +80,11 @@ export class Board {
     }
   }
 
-  private generatePiece() {
-    const generator = randomPiece();
-    const piece = generator(new Point(BOARD_WIDTH / 2, 0));
-    return piece;
+  private newPiece() {
+    const newPiece = this.nextPiece(new Point(BOARD_WIDTH / 2, 0));
+    this.nextPiece = randomPiece();
+    this.emit("nextPieceUpdated", this.nextPiece(new Point(0, 0)));
+    return newPiece;
   }
 
   private rerender() {
